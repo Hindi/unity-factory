@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{710C112A-0FB7-6606-483E-710CD48C647A}</ProjectGuid>
+	<ProjectGuid>{DCAC5D5E-D8EA-69FC-BA29-B4574F93AFF7}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -46,7 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Editor\GOFConfigCreatorEditor.cs" />
+     <Compile Include="Assets\GOFactory\Editor\GOFCatalogEditor.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Programmes/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -92,7 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{2BCA945E-D626-CFE7-FAB2-FF264DAF1B90}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
+      <Project>{7663A45A-27BB-2A09-5820-506F7139A7BD}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
