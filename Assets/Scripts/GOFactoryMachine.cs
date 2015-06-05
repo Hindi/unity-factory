@@ -18,8 +18,12 @@ namespace GOF
             set { prefab = value; }
         }
 
-        private List<GameObject> inUse;
+        private Dictionary<string, GameObject> inUse;
         private List<GameObject> waiting;
+
+        private GOFactory factory;
+        public GOFactory Factory
+        { set { factory = value; } }
 
         private Vector3 defaultPos;
         public Vector3 DefaultPos
@@ -41,7 +45,7 @@ namespace GOF
 
         public GOFactoryMachine()
         {
-            inUse = new List<GameObject>();
+          inUse = new Dictionary<string, GameObject>();
             waiting = new List<GameObject>();
         }
 
@@ -84,39 +88,42 @@ namespace GOF
                 tracker.Active = true;
                 tracker.InactivityTimeBeforeDestroy = inactivityTimeBeforeDestroy;
             }
-            inUse.Add(model);
+            inUse.Add(id, model);
             return model;
         }
 
-        public void putAway(GameObject obj)
+        public void putAway(GOFactoryTracker obj)
         {
-            var creepInList = inUse.Find(c => c.GetComponent<GOFactoryTracker>().Id == obj.GetComponent<GOFactoryTracker>().Id);
-            inUse.Remove(creepInList);
+          if (inUse.ContainsKey(obj.Id))
+          {
+            var creepInList = inUse[obj.Id];
+            inUse.Remove(obj.Id);
             waiting.Add(creepInList);
             if (inactivityTimeBeforeDestroy > 0)
-                StartCoroutine(destroyCoroutine());
+              factory.startChildCoroutine(destroyCoroutine(obj));
+          }
         }
 
-        public void remove(GameObject obj)
+        public void remove(GOFactoryTracker obj)
         {
-            if (waiting.Contains(obj))
-                waiting.Remove(obj);
-            if (inUse.Contains(obj))
-                inUse.Remove(obj);
-            GameObject.Destroy(obj);
+            if (waiting.Contains(obj.gameObject))
+              waiting.Remove(obj.gameObject);
+            if (inUse.ContainsKey(obj.Id))
+              inUse.Remove(obj.Id);
+            GameObject.Destroy(obj.gameObject);
         }
 
-        IEnumerator destroyCoroutine()
+        IEnumerator destroyCoroutine(GOFactoryTracker obj)
         {
             float coroutineStartTime = Time.time;
-            while (!isActive)
+            while (!obj.Active)
             {
                 if (Time.time - coroutineStartTime > inactivityTimeBeforeDestroy)
                 {
-                    machine.remove(gameObject);
+                    remove(obj);
                     break;
                 }
-                yield return new WaitForSeconds(inactivityTimeBeforeDestroy);
+                yield return new WaitForEndOfFrame();
             }
         }
     }

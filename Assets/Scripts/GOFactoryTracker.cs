@@ -20,7 +20,7 @@ namespace GOF
             set
             {
                 isActive = value;
-                activate(isActive);
+                activate();
             }
         }
 
@@ -35,16 +35,11 @@ namespace GOF
             set { machine = value; }
         }
 
-        protected virtual void activate(bool b)
+        protected virtual void activate()
         {
-            hide(b);
-        }
-
-        protected void hide(bool b)
-        {
-            gameObject.SetActive(b);
-            if (!b)
-                transform.position = new Vector3(0, 1000, 0);
+          gameObject.SetActive(isActive);
+          if(!isActive)
+            machine.putAway(this);
         }
     }
 }

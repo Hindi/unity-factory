@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace GOF
@@ -36,9 +37,11 @@ namespace GOF
         {
             if (!machines.ContainsKey(machineName))
             {
-                machines.Add(machineName, new GOFactoryMachine());
-                machines[machineName].ModelName = machineName;
-                setMachineOptions(machines[machineName], options);
+              var m = new GOFactoryMachine();
+              m.ModelName = machineName;
+              m.Factory = this;
+              setMachineOptions(m, options);
+              machines.Add(machineName, m);
             }
             else
             {
@@ -89,7 +92,7 @@ namespace GOF
             obj.GetComponent<GOFactoryTracker>().Active = false;
         }
 
-        public void StartChildCoroutine(IEnumerator coroutineMethod)
+        public void startChildCoroutine(IEnumerator coroutineMethod)
         {
             StartCoroutine(coroutineMethod);
         }
