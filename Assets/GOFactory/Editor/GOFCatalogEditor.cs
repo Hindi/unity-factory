@@ -14,6 +14,8 @@ public class GOFCatalogEditor : Editor
     void OnEnable()
     {
         myTarget = (GOFCatalog)target;
+        if (myTarget.MachinesList == null)
+          myTarget.MachinesList = new List<GOFactoryMachineTemplate>();
         list = myTarget.MachinesList;
     }
 
